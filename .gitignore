@@ -2,3 +2,5 @@ db.sqlite3
 geckodriver.log
 .vscode
 Pipfile.lock
+*.pyc
+__pycache__
