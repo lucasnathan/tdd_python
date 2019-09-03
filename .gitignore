@@ -2,6 +2,6 @@ db.sqlite3
 geckodriver.log
 .vscode
 Pipfile.lock
-chromedriver_linux64/*
-*.pyc
-__pycache__
+chromedriver_linux64
+**.pyc
+
