@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
@@ -17,22 +19,37 @@ class NewVisitorTest(unittest.TestCase):
 
         # On the page title mentions the to-do list
         self.assertIn('To-Do', self.browser.title)
-        self.fail("finish test!")
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
+        
 
         # He receives the input to enter a to-do item right away
-
-        # He types "Buy Big fan" into a text box (Marquinhos's hobby is collecting fans)
+        inputbox = self.browser.find_elements_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a to-do item'
+        )
+        # He types "Buy peacock feathers" into a text box (Marquinhos's hobby is collecting peacock feathers)
+        inputbox.send_keys('Buy peacock feathers')
 
         # When he hits enter, the page updates, and now the page lists
-        # "1: Buy Big fan" as an item in a to-do list
+        # "1: Buy peacock feathers" as an item in a to-do list
+        inputbox.send_keys(keys.ENTER)
+        time.sleep(1)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue (
+            any(row.text == '1: Buy peacock feathers' for row in rows)
+        )
         # There is still a text box inviting him to add another item. He
-        # enters "Use Big fan to make me fly" (Marquinhos is very excentric)
+        # enters "Use peacock feathers to make me fly" (Marquinhos is very excentric)
         # The page updates again, and now shows both items on his list
         # Maquinhos wonders whether the site will remember his list. Then he sees
         # that the site has generated a unique URL for him -- there is some
         # explanatory text to that effect.
         # He visits that URL - his to-do list is still there.
-        # Satisfied, he goes back to his fan
-
+        # Satisfied, he goes back to his peacock feathers
+        self.fail("finish test!")
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
